@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server'
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url)
     const code = requestUrl.searchParams.get('code')
-    const origin = requestUrl.origin
+    const origin = request.nextUrl.origin
 
     // Create response object that will be modified by cookie operations
     let response = NextResponse.redirect(`${origin}/dashboard`)

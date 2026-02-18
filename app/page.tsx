@@ -32,11 +32,22 @@ export default function Home() {
 
     const handleGoogleLogin = async () => {
         setIsLoading(true)
+        const origin = window.location.origin
+
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: `${window.location.origin}/auth/callback` },
+            options: {
+                redirectTo: `${origin}/auth/callback`,
+                queryParams: {
+                    access_type: 'offline',
+                    prompt: 'consent',
+                },
+            },
         })
-        if (error) setIsLoading(false)
+        if (error) {
+            console.error('Error logging in:', error.message)
+            setIsLoading(false)
+        }
     }
 
     if (isCheckingAuth) return <LoadingScreen />
