@@ -7,7 +7,7 @@
 export type Database = {
     public: {
         Tables: {
-            bookmarks: {
+            Bookmarks: {
                 Row: {
                     id: string
                     created_at: string

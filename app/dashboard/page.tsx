@@ -7,7 +7,7 @@ import { useEffect, useState, useMemo } from 'react'
 import type { Database } from '@/lib/supabase/types'
 import { LogOut, Loader2 } from 'lucide-react'
 
-type Bookmark = Database['public']['Tables']['bookmarks']['Row']
+type Bookmark = Database['public']['Tables']['Bookmarks']['Row']
 
 export default function DashboardPage() {
     const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
@@ -32,7 +32,7 @@ export default function DashboardPage() {
 
                 // Get bookmarks — explicit user_id filter for defense-in-depth
                 const { data, error } = await supabase
-                    .from('bookmarks')
+                    .from('Bookmarks')
                     .select('*')
                     .eq('user_id', user.id)
                     .order('created_at', { ascending: false })
@@ -117,7 +117,7 @@ export default function DashboardPage() {
         try {
             // Only insert to database - real-time will update UI in ALL tabs
             const { error } = await (supabase
-                .from('bookmarks') as any)
+                .from('Bookmarks') as any)
                 .insert({ url, title, user_id: user.id })
 
             if (error) throw error
@@ -142,7 +142,7 @@ export default function DashboardPage() {
         try {
             // Explicit user_id guard — prevents cross-account deletion
             const { error } = await supabase
-                .from('bookmarks')
+                .from('Bookmarks')
                 .delete()
                 .eq('id', id)
                 .eq('user_id', user.id)
