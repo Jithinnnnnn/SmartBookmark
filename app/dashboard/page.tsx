@@ -114,8 +114,8 @@ export default function DashboardPage() {
 
         try {
             // Only insert to database - real-time will update UI in ALL tabs
-            const { error } = await supabase
-                .from('bookmarks')
+            const { error } = await (supabase
+                .from('bookmarks') as any)
                 .insert({ url, title, user_id: user.id })
 
             if (error) throw error
