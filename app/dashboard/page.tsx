@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState, useMemo } from 'react'
 import type { Database } from '@/lib/supabase/types'
@@ -54,14 +56,14 @@ export default function DashboardPage() {
         console.log('🔌 Setting up real-time subscription for user:', user.id)
 
         const channel = supabase
-            .channel('bookmarks-changes')
+            .channel('realtime-dashboard')
             // Postgres changes — Single Source of Truth for all tabs
             .on(
                 'postgres_changes',
                 {
                     event: '*', // Listen to ALL events (INSERT, UPDATE, DELETE)
                     schema: 'public',
-                    table: 'bookmarks',
+                    table: 'Bookmarks',
                     filter: `user_id=eq.${user.id}`,
                 },
                 (payload) => {
